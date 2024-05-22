@@ -187,9 +187,9 @@ if __name__=='__main__':
     for year_i in np.arange(2018, 2041):
         
         print(year_i)
-        t=pd.datetime(year_i, 1, 1)
-        t_lag_1=pd.datetime(year_i-1, 1, 1)
-        t_lag_2=pd.datetime(year_i-2, 1, 1)
+        t=datetime(year_i, 1, 1)
+        t_lag_1=datetime(year_i-1, 1, 1)
+        t_lag_2=datetime(year_i-2, 1, 1)
         
         #### Scenario parameters ####
         sort_eff=sort_eff_series.loc[year_i]

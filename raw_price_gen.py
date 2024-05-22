@@ -39,7 +39,7 @@ def raw_price_historical_sim(s):
     
     for date in raw_price_hist.index:
         y = date.year
-        deflate = deflator.loc[pd.datetime(y,1,1)]
+        deflate = deflator.loc[datetime(y,1,1)]
         raw_price_hist.loc[date] = raw_price_hist.loc[date]/deflate.values*100
     
     ele_price_hist = raw_price_hist.iloc[:, 0:8]
@@ -58,21 +58,21 @@ def raw_price_historical_sim(s):
     alloy_price_init = scrap_metal_values.iloc[-1, :] - (sp_low + other_metal_count*(sp_high-sp_low))
     
     alloy_sim_index = raw_price_hist.iloc[-1,:].isna()
-    raw_price_hist.loc[pd.datetime(2018,1,1), alloy_sim_index] = alloy_price_init.loc[alloy_sim_index]
+    raw_price_hist.loc[datetime(2018,1,1), alloy_sim_index] = alloy_price_init.loc[alloy_sim_index]
     
     alloy_spread_diff_hist = ele_price_hist.loc[:, 'Ref_Cu'].diff().mul(0.424).fillna(0)
     alloy_spread_diff_hist_cum = np.cumsum(alloy_spread_diff_hist[::-1])[::-1].shift(-1).fillna(0)
 
     for s in alloy_sim_index[alloy_sim_index].index:
         alloy_spread = pd.Series(0, index=raw_price_hist.index)
-        alloy_spread.iloc[-1] = scrap_metal_values.loc[pd.datetime(2018,1,1),s] - raw_price_hist.loc[pd.datetime(2018,1,1), s]
+        alloy_spread.iloc[-1] = scrap_metal_values.loc[datetime(2018,1,1),s] - raw_price_hist.loc[datetime(2018,1,1), s]
         alloy_spread.iloc[:] = alloy_spread.iloc[-1] - alloy_spread_diff_hist_cum
         raw_price_hist.loc[:, s] = scrap_metal_values.loc[:, s] - alloy_spread
         
     return (raw_price_hist)
     
 
-def raw_price_future_sim(s, seed, vol_mean, vol_std, end_time=pd.datetime(2048,1,1)):
+def raw_price_future_sim(s, seed, vol_mean, vol_std, end_time=datetime(2048,1,1)):
     raw_med_specs = raw_specs_middle()
     raw_price_future = pd.DataFrame(0, index=pd.date_range('20180101', end_time, freq='AS'), columns=raw_med_specs.index)
 
@@ -97,12 +97,12 @@ def raw_price_future_sim(s, seed, vol_mean, vol_std, end_time=pd.datetime(2048,1
     no2_spread_diff = raw_price_future.loc[:, 'Ref_Cu'].diff().mul(0.185).fillna(0)
     
     no1_spread = pd.Series(0, index=raw_price_future.index, name='No.1')
-    no1_spread.iloc[0] = raw_price_future.loc[pd.datetime(2018,1,1),'Ref_Cu'] - raw_price_future.loc[pd.datetime(2018,1,1),'No.1']
+    no1_spread.iloc[0] = raw_price_future.loc[datetime(2018,1,1),'Ref_Cu'] - raw_price_future.loc[datetime(2018,1,1),'No.1']
     no1_spread.iloc[:] = no1_spread.iloc[0] + no1_spread_diff.cumsum()
     raw_price_future.loc[:, 'No.1'] = raw_price_future.loc[:, 'Ref_Cu'] - no1_spread
     
     no2_spread = pd.Series(0, index=raw_price_future.index, name='No.2')
-    no2_spread.iloc[0] = raw_price_future.loc[pd.datetime(2018,1,1),'Ref_Cu'] - raw_price_future.loc[pd.datetime(2018,1,1),'No.2']
+    no2_spread.iloc[0] = raw_price_future.loc[datetime(2018,1,1),'Ref_Cu'] - raw_price_future.loc[datetime(2018,1,1),'No.2']
     no2_spread.iloc[:] = no2_spread.iloc[0] + no2_spread_diff.cumsum()
     raw_price_future.loc[:, 'No.2'] = raw_price_future.loc[:, 'Ref_Cu'] - no2_spread
     
@@ -118,7 +118,7 @@ def raw_price_future_sim(s, seed, vol_mean, vol_std, end_time=pd.datetime(2048,1
     
     for s in scrap_metal_values.columns:
         alloy_spread = pd.Series(0, index=raw_price_future.index)
-        alloy_spread.iloc[0] = scrap_metal_values.loc[pd.datetime(2018,1,1),s] - raw_price_future.loc[pd.datetime(2018,1,1), s]
+        alloy_spread.iloc[0] = scrap_metal_values.loc[datetime(2018,1,1),s] - raw_price_future.loc[datetime(2018,1,1), s]
         alloy_spread.iloc[:] = alloy_spread.iloc[0] + alloy_spread_diff.cumsum()
         raw_price_future.loc[:, s] = scrap_metal_values.loc[:, s] - alloy_spread
     

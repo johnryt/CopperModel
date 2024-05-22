@@ -7,7 +7,7 @@ def cost_curve_df(cc_year, mine_life_stats_panel_all):
     cost_components=['Minsite cost ($/tonne paid metal)', 'TCRC ($/tonne paid metal)', 
                      'Frieght ($/tonne paid metal)', 'Royalty ($/tonne paid metal)']
 
-    cc_t=pd.datetime(cc_year, 1, 1)
+    cc_t=datetime(cc_year, 1, 1)
     cost_components_of_year=mine_life_stats_panel_all.loc[cc_t, idx[:, cost_components]]
     cost_total_of_year=cost_components_of_year.groupby(level=0).sum()
     cost_orders=cost_total_of_year[cost_total_of_year>0].sort_values(ascending=True).index

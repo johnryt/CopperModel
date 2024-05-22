@@ -13,8 +13,8 @@ from raw_price_gen import raw_price_historical_sim, raw_price_future_sim
 def raw_consumption(
         alloy_prod,
         alloy_breakdown,
-        start_time = pd.datetime(1999,1,1),
-        end_time = pd.datetime(2018,1,1),
+        start_time = datetime(1999,1,1),
+        end_time = datetime(2018,1,1),
         other_metal_count=1, seed=1120, vol_mean=0, vol_std=0.2, verbose=0):
     
     # Read specs

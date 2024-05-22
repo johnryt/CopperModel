@@ -181,12 +181,13 @@ total_scrap_demand_all_life=pd.DataFrame({'Direct melt scrap': direct_melt_scrap
                                         'Refined scrap': refined_scrap_demand})
 
 # Initialize scrap supply shock
-# scrap_shock_file=pd.read_excel('Other scenarios/China import ban/Simulation scenarios.xlsx', sheet_name='Sheet1', index_col=0)
-# scrap_shock=scrap_shock_file.loc[:, 'Baseline']
+scrap_shock_file=pd.read_excel('Data/Simulation scenarios.xlsx', sheet_name='Sheet1', index_col=0)
+scrap_shock=scrap_shock_file.loc[:, 'Baseline']
 
 
 
 
+# for year_i in np.arange(2018, 2025):
 for year_i in np.arange(2018, 2041):
     
     print(year_i)
@@ -346,6 +347,6 @@ for year_i in np.arange(2018, 2041):
     refined_scrap_demand_year_i=ref_stats.loc[t, 'Secondary production']/scrap_to_cathode_eff
     total_scrap_demand_all_life.loc[year_i, 'Direct melt scrap']=direct_melt_scrap_demand_year_i
     total_scrap_demand_all_life.loc[year_i, 'Refined scrap']=refined_scrap_demand_year_i
-
-    total_scrap_demand_all_life
     
+    
+total_scrap_demand_all_life
