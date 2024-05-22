@@ -12,7 +12,7 @@ def lognorm_mean(mu, sigma_to_mu, mean):
 
 # Calculate mu based on lognormal mean
 def calc_mu(sigma_to_mu, mean, x0, **kwargs):
-    return np.asscalar(fsolve(lognorm_mean, x0=x0, args=(sigma_to_mu, mean), **kwargs))
+    return fsolve(lognorm_mean, x0=x0, args=(sigma_to_mu, mean), **kwargs).item()
 
 
 # Build lifetime dataframe
